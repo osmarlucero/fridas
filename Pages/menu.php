@@ -49,7 +49,7 @@
       <a class="nav-link" href="#">Ordenes de Servicio</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="addProduct.php">Añadir Producto</a>
+      <a class="nav-link" href="addTable.php">Añadir Mesa</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="stock.php">Inventario</a>
