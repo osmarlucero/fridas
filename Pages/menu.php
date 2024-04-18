@@ -12,6 +12,7 @@
     }
     .sidebar {
       position: fixed;
+      width: 15%;
       top: 0;
       left: 0;
       bottom: 0;
@@ -46,13 +47,10 @@
       <a class="nav-link" href="main.php">Inicio</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Ordenes de Servicio</a>
-    </li>
-    <li class="nav-item">
       <a class="nav-link" href="addTable.php">Añadir Mesa</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="stock.php">Inventario</a>
+      <a class="nav-link" href="stock.php">Menu</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="#">Usuarios</a>

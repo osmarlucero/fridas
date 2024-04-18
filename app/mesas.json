@@ -1,0 +1,54 @@
+{
+  "mesa1": {
+    "estado": "ocupada",
+    "platillos": {
+      "entrante": "ensalada mixta",
+      "principal": "pollo a la parrilla",
+      "postre": "tiramisú"
+    },
+    "platillosObservaciones": {
+      "entrante": "sin aceitunas",
+      "principal": "sin salsa picante",
+      "postre": "extra crema"
+    },
+    "bebidas": {
+      "refresco": "Coca-Cola",
+      "agua": "agua mineral"
+    },
+    "bebidasObservaciones": {
+      "refresco": "con hielo",
+      "agua": "sin gas"
+    },
+    "total": 250
+  },
+  "mesa2": {
+    "estado": "libre",
+    "platillos": {},
+    "platillosObservaciones": {},
+    "bebidas": {},
+    "bebidasObservaciones": {},
+    "total": 0
+  },
+  "mesa3": {
+    "estado": "ocupada",
+    "platillos": {
+      "entrante": "sopa de tomate",
+      "principal": "filete de salmón",
+      "postre": "tarta de manzana"
+    },
+    "platillosObservaciones": {
+      "entrante": "sin cebolla",
+      "principal": "poco hecho",
+      "postre": "sin nueces"
+    },
+    "bebidas": {
+      "vino": "vino tinto",
+      "cerveza": "cerveza artesanal"
+    },
+    "bebidasObservaciones": {
+      "vino": "temperatura ambiente",
+      "cerveza": "fría"
+    },
+    "total": 320
+  }
+}

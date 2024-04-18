@@ -1,0 +1,29 @@
+{
+  "mesa1": {
+    "estado": "ocupada",
+    "pedido": {
+      "entrante": "ensalada",
+      "principal": "pollo a la parrilla",
+      "postre": "pastel de chocolate"
+    },
+    "total": 250
+  },
+  "mesa2": {
+    "estado": "libre",
+    "pedido": {
+      "entrante": "",
+      "principal": "",
+      "postre": ""
+    },
+    "total": 0
+  },
+  "mesa3": {
+    "estado": "ocupada",
+    "pedido": {
+      "entrante": "sopa de tomate",
+      "principal": "filete de salmón",
+      "postre": "tarta de manzana"
+    },
+    "total": 320
+  }
+}

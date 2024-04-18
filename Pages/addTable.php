@@ -59,7 +59,7 @@
           <form action="../app/categoryController.php" method="post">
             <div class="form-group">
               <label for="id">ID:</label>
-              <input type="text" class="form-control" id="id" name="id" required>
+              <input type="text" class="form-control" id="id" name="id" >
             </div>
             <div class="form-group">
               <label for="cantidadPersonas">Cantidad de Personas:</label>

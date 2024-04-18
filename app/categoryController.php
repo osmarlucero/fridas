@@ -15,17 +15,11 @@
 				$pass = strip_tags($_POST['password']);
 				$CategoryController->storeUser($id, $nombre, $apellido,$rol,$mac,$pass);
 			break;
-			case 'storeProduct':
-				$nombreProducto = strip_tags($_POST['nombreProducto']);
-				$familia = strip_tags($_POST['familia']);
-				$grupo = strip_tags($_POST['grupo']);
-				$subgrupo = strip_tags($_POST['subgrupo']);
-				$precio = strip_tags($_POST['precio']);
-				$costo = strip_tags($_POST['costo']);
-				$almacen = strip_tags($_POST['almacen']);
-				$codigo = strip_tags($_POST['codigo']);
-				$stock = strip_tags($_POST['stock']);
-		$CategoryController->storeProduct($nombreProducto, $familia, $grupo, $subgrupo, $precio, $costo, $almacen, $codigo, $stock);
+			case 'storeMesa':
+				$id = strip_tags($_POST['id']);
+				$cantidadPersonas = strip_tags($_POST['cantidadPersonas']);
+				$ubicacion = strip_tags($_POST['ubicacion']);
+				$CategoryController->storeMesa($id, $cantidadPersonas, $ubicacion);
 			break;
 			case 'product':
 				$id = strip_tags($_POST['id']);
@@ -35,13 +29,13 @@
 	}
 
 	class CategoryController{
-		public function storeProduct($nombreProducto, $familia, $grupo, $subgrupo, $precio, $costo, $almacen, $codigo, $stock){
+		public function storeMesa($id, $cantidadPersonas, $ubicacion){
 			$conn = connect();
 			if ($conn->connect_error == false) {
-			    if ($nombreProducto != "") {
-			        $query = "INSERT INTO `articulos` (`idArticulo`, `nombre`, `costo`, `familia`, `almacen`, `stock`, `grupo`, `subgrupo`, `precio`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			    if ($cantidadPersonas != "") {
+			        $query = "INSERT INTO `mesa` (`id_mesa`, `cantidad_personas`, `ubicacion`) VALUES (?, ?	, ?);";
 			        $prepared_query = $conn->prepare($query);
-			        $prepared_query->bind_param('ssdsisssd', $codigo, $nombreProducto, $costo, $familia, $almacen, $stock, $grupo, $subgrupo, $precio);
+			        $prepared_query->bind_param('iss', $id, $cantidadPersonas, $ubicacion);
 			        if ($prepared_query->execute()) {
 			            header("Location:" . $_SERVER["HTTP_REFERER"]);
 			            $_SESSION['success'] = "Datos enviados correctamente";
