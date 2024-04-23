@@ -1,11 +1,11 @@
 <?php
-include "../app/categoryController.php";
-$categoryController = new categoryController();
-$insumos = $categoryController->getProducts();
 
 if (isset($_SESSION) == false || $_SESSION['id'] == false) {
     header("Location:../");
 }
+include "../app/categoryController.php";
+$categoryController = new categoryController();
+$insumos = $categoryController->getProducts();
 ?>
 <!DOCTYPE html>
 <html lang="en">

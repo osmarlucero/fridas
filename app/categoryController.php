@@ -52,29 +52,10 @@
 			}
 
 		}
-		public function getProduct($id){
+		public function getMesas(){
  			$conn = connect();
 			if ($conn->connect_error==false){
-					$query = "SELECT * FROM `articulos` where idArticulo =?";
-					$prepared_query = $conn->prepare($query);
-					$prepared_query->bind_param('s',$id);
-				$prepared_query->execute();
-				$results = $prepared_query->get_result();
-				$product = $results->fetch_all(MYSQLI_ASSOC);
-				if( count($product)>0){
-					$json_product = json_encode($product);
-            		echo $json_product;
-				}else{
-					echo "No hay producto";				
-				}
-			}else{
-				echo "error";
-			}
-		}
-		public function getProducts(){
- 			$conn = connect();
-			if ($conn->connect_error==false){
-				$query = "SELECT * FROM `articulos`";
+				$query = "SELECT * FROM `mesa`";
 				$prepared_query = $conn->prepare($query);
 				$prepared_query->execute();
 				$results = $prepared_query->get_result();

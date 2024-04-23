@@ -1,147 +1,138 @@
 <?php
     include "../app/categoryController.php";
-//    $categoryController = new categoryController();
-  //  $insumos = $categoryController->getVentas();
-    //$cantidades = $categoryController->getStats();
-   
+
     if(isset($_SESSION)==false  || $_SESSION['id']==false){
         header("Location:../");
     }
+    $categoryController = new categoryController();
+    $mesas = $categoryController->getMesas();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database-compat.js"></script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Punto de Venta</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- -->
   <style>
     /* Estilos personalizados */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f4f4f4;
     }
     #container {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 20px;
-      margin-left: 30%;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 70%;
+      margin-left: 25%;
+      align-items: center;
     }
-    #menu {
-      width: 13%;
-      background-color: #f8f9fa;
-      position: fixed;
-      height: 100%;
+    .mesa {
+      width: 180px;
+      height: 180px;
+      border-radius: 15px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
     }
-    #carrito {
-      flex: 1;
-      background-color: #f8f9fa;
-      padding: 10px;
+    .mesa:hover {
+      transform: scale(1.05);
     }
-    .producto {
-      cursor: pointer;
-      margin-bottom: 10px;
-      padding: 10px;
-      background-color: #e9ecef;
-      border-radius: 5px;
+    .mesa h3 {
+      margin: 0;
+      color: #333;
     }
-    .eliminar {
-      color: red;
-      cursor: pointer;
+    .mesa p {
+      margin: 5px 0;
+      color: #666;
     }
   </style>
 </head>
 <body>
 
-<div id="menu"></div>
-
-<div id="container">
-  <div id="carrito">
-    <h2>Carrito</h2>
-    <ul id="lista-carrito"></ul>
-    <p>Total: <span id="total">0</span></p>
+  <div id="menu"></div>
+  <div id="container">
+    <!-- Las tarjetas de las mesas se generarán dinámicamente aquí -->
   </div>
 
-<div>
-  <input type="text" id="productoInput" placeholder="Nombre del producto">
-  <button id="checkButton">Check</button>
-</div>
-</div>
+  <!-- jQuery y Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyAAmjsC5ZBySrrc8_FDHx6ZvOXAWm82bEY",
+      authDomain: "frida-a5c24.firebaseapp.com",
+      databaseURL: "https://frida-a5c24-default-rtdb.firebaseio.com",
+      projectId: "frida-a5c24",
+      storageBucket: "frida-a5c24.appspot.com",
+      messagingSenderId: "760210327274",
+      appId: "1:760210327274:web:a7d7dd23f7a6903a09b993"
+    };
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-  // Cargar el menú lateral desde menu.php
-  $("#menu").load("menu.php");
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
 
-  const listaCarrito = $("#lista-carrito");
-  const totalElemento = $("#total");
+    // Referencia a tu base de datos en tiempo real
+    const dbRef = firebase.database().ref();
 
-  $("#checkButton").click(function() {
-    const productoInput = $("#productoInput").val();
+    // Escuchar cambios en cada mesa y actualizar la interfaz
+    dbRef.on('value', (snapshot) => {
+      const mesas = snapshot.val();
+      let mesasHTML = '';
 
-    // Realizar la solicitud AJAX
-    $.ajax({
-      type: "POST",
-      url: "../app/categoryController.php",
-      data: { action: "product", id: productoInput },
-      success: function(response) {
-        const producto = JSON.parse(response);
-        if (producto !== null) {
-          const nombre = producto[0].nombre;
-          const precioTexto = producto[0].precio;
-          const precio = parseFloat(precioTexto);
-          const id = producto[0].idArticulo;
-
-          const productoEnCarrito = $(`#lista-carrito li[data-id="${id}"]`);
-          if (productoEnCarrito.length > 0) {
-            const cantidad = parseInt(productoEnCarrito.find('.cantidad').text()) + 1;
-            productoEnCarrito.find('.cantidad').text(cantidad);
-          } else {
-            const li = $(`<li data-id="${id}">${nombre} (ID: ${id}) - $${precioTexto} <span class="cantidad">1</span> <span class="eliminar">Eliminar</span></li>`);
-            listaCarrito.append(li);
-          }
-
-          let total = parseFloat(totalElemento.text());
-          total += precio;
-          totalElemento.text(total.toFixed(2));
-        } else {
-          console.log("No se encontró el producto");
+      for (const key in mesas) {
+        if (mesas.hasOwnProperty(key)) {
+          const mesa = mesas[key];
+          const estado = mesa.estados[0].estado;
+          mesasHTML += `
+            <div class="mesa card text-center">
+              <div class="card-body">
+                <h3 class="card-title">Mesa ${key}</h3>
+                <p class="card-text">Status: ${estado}</p>
+                <p class="card-text">Platillo: ${mesa.platillos[0].platillo}</p>
+                <p class="card-text">Observaciones: ${mesa.platillos[0].observaciones}</p>
+                <p class="card-text">Bebida: ${mesa.bebidas[0].bebida}</p>
+                <p class="card-text">Observaciones: ${mesa.bebidas[0].observaciones}</p>
+              </div>
+            </div>
+          `;
         }
       }
+
+      // Actualizar el contenedor de las mesas
+      document.getElementById('container').innerHTML = mesasHTML;
     });
-  });
 
-  $("#lista-carrito").on("click", ".eliminar", function() {
-    const li = $(this).parent();
-    const cantidadActual = parseInt(li.find('.cantidad').text());
-    const precioTexto = li.text().match(/\$[\d.]+/);
-    const precio = parseFloat(precioTexto[0].substring(1));
-    let total = parseFloat(totalElemento.text());
-
-    let cantidadEliminar = cantidadActual;
-    if (cantidadActual > 1) {
-      cantidadEliminar = prompt(`¿Cuántos productos deseas eliminar? (Máx. ${cantidadActual})`);
-      cantidadEliminar = parseInt(cantidadEliminar);
-      if (!cantidadEliminar || cantidadEliminar <= 0 || cantidadEliminar > cantidadActual) {
-        return;
+    // Escuchar cambios específicos en el nodo platillos
+    dbRef.on('child_changed', (snapshot) => {
+      const mesaId = snapshot.key;
+      const mesaData = snapshot.val();
+  
+      // Verificar si hay un nuevo platillo
+      if (mesaData.platillos.length > 0) {
+        const nuevoPlatillo = mesaData.platillos[mesaData.platillos.length - 1];
+        alert(`Se añadió un nuevo platillo en la Mesa ${mesaId}: ${nuevoPlatillo.platillo}`);
       }
-    }
+    });
 
-    const nuevaCantidad = cantidadActual - cantidadEliminar;
-    if (nuevaCantidad <= 0) {
-      total -= precio * cantidadActual;
-      totalElemento.text(total.toFixed(2));
-      li.remove();
-    } else {
-      $(this).prev().text(nuevaCantidad);
-      total -= precio * cantidadEliminar;
-      totalElemento.text(total.toFixed(2));
-    }
-  });
-});
-</script>
+    $(document).ready(function() {
+      // Cargar el menú lateral desde menu.php
+      $("#menu").load("menu.php");
+    });
+  </script>
 
 </body>
 </html>
