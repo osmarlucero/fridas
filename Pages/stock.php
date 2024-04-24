@@ -1,11 +1,13 @@
 <?php
+include "../app/categoryController.php";
+
+// Obtener los menus
+$categoryController = new categoryController();
+$menus = $categoryController->getMenus();
 
 if (isset($_SESSION) == false || $_SESSION['id'] == false) {
     header("Location:../");
 }
-include "../app/categoryController.php";
-$categoryController = new categoryController();
-$insumos = $categoryController->getProducts();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,11 +31,12 @@ $insumos = $categoryController->getProducts();
 
         th, td {
             text-align: center;
+             vertical-align: middle;
         }
     </style>
 </head>
 <body>
-  <div id="menu"></div>
+<div id="menu"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-3" id="menu"></div>
@@ -45,61 +48,18 @@ $insumos = $categoryController->getProducts();
                     <tr>
                         <th class="col-2">ID</th>
                         <th class="col-5">Nombre</th>
-                        <th class="col-3">Stock</th>
                         <th class="col-2">Precio</th>
                     </tr>
                     </thead>
                     <tbody class="item-list">
-                    <!-- Ejemplo de productos -->
-                    <?php foreach ($insumos as $insumo): ?>
+                    <!-- Ejemplo de menus -->
+                    <?php foreach ($menus as $menu): ?>
                         <tr>
-                            <td><?= $insumo['idArticulo'] ?></td>
-                            <td><?= $insumo['nombre'] ?></td>
-                            <td><?= $insumo['stock'] ?></td>
-                            <td>$<?= $insumo['precio'] ?></td>
+                            <td><?= $menu['id'] ?></td>
+                            <td><?= $menu['nombre'] ?></td>
+                            <td>$<?= $menu['precio'] ?></td>
                         </tr>
                     <?php endforeach ?>
-                    <?php foreach ($insumos as $insumo): ?>
-                        <tr>
-                            <td><?= $insumo['idArticulo'] ?></td>
-                            <td><?= $insumo['nombre'] ?></td>
-                            <td><?= $insumo['stock'] ?></td>
-                            <td>$<?= $insumo['precio'] ?></td>
-                        </tr>
-                    <?php endforeach ?>
-                    <?php foreach ($insumos as $insumo): ?>
-                        <tr>
-                            <td><?= $insumo['idArticulo'] ?></td>
-                            <td><?= $insumo['nombre'] ?></td>
-                            <td><?= $insumo['stock'] ?></td>
-                            <td>$<?= $insumo['precio'] ?></td>
-                        </tr>
-                    <?php endforeach ?>
-                    <?php foreach ($insumos as $insumo): ?>
-                        <tr>
-                            <td><?= $insumo['idArticulo'] ?></td>
-                            <td><?= $insumo['nombre'] ?></td>
-                            <td><?= $insumo['stock'] ?></td>
-                            <td>$<?= $insumo['precio'] ?></td>
-                        </tr>
-                    <?php endforeach ?>
-                    <?php foreach ($insumos as $insumo): ?>
-                        <tr>
-                            <td><?= $insumo['idArticulo'] ?></td>
-                            <td><?= $insumo['nombre'] ?></td>
-                            <td><?= $insumo['stock'] ?></td>
-                            <td>$<?= $insumo['precio'] ?></td>
-                        </tr>
-                    <?php endforeach ?>
-                    <?php foreach ($insumos as $insumo): ?>
-                        <tr>
-                            <td><?= $insumo['idArticulo'] ?></td>
-                            <td><?= $insumo['nombre'] ?></td>
-                            <td><?= $insumo['stock'] ?></td>
-                            <td>$<?= $insumo['precio'] ?></td>
-                        </tr>
-                    <?php endforeach ?>
-
                     </tbody>
                 </table>
             </div>

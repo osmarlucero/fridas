@@ -52,10 +52,10 @@
 			}
 
 		}
-		public function getMesas(){
+		public function getMenus(){
  			$conn = connect();
 			if ($conn->connect_error==false){
-				$query = "SELECT * FROM `mesa`";
+				$query = "SELECT * FROM `menus`";
 				$prepared_query = $conn->prepare($query);
 				$prepared_query->execute();
 				$results = $prepared_query->get_result();

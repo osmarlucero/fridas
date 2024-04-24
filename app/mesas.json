@@ -1,20 +1,14 @@
 {
     "1": {
-        "estados": [
-            {
-                "estado": "libre"
-            }
-        ],
+        "estado": "ocupada",
         "platillos": [
             {
-                "platillo": "huevo",
-                "observaciones": "sin sal"
+                "huevo":"sin sal"
             }
         ],
         "bebidas": [
             {
-                "bebida": "cafe",
-                "observaciones": "con hielo"
+                "cafe": "con hielo"
             }
         ],
         "mesero": "",
