@@ -88,52 +88,50 @@
     const dbRef = firebase.database().ref();
 
     // Escuchar cambios en cada mesa y actualizar la interfaz
-    // Escuchar cambios en cada mesa y actualizar la interfaz
-dbRef.on('value', (snapshot) => {
-  const mesas = snapshot.val();
-  let mesasHTML = '';
+    dbRef.on('value', (snapshot) => {
+      const mesas = snapshot.val();
+      let mesasHTML = '';
 
-  for (const key in mesas) {
-    if (mesas.hasOwnProperty(key)) {
-      const mesa = mesas[key];
-      const estado = mesa.estado;
-      const platillo = mesa.platillo ? Object.keys(mesa.platillo)[0] : 'Ninguno';
-      const observacionesPlatillo = mesa.platillo ? Object.values(mesa.platillo)[0] : 'Ninguna';
-      const bebida = mesa.bebidas ? Object.keys(mesa.bebidas[0])[0] : 'Ninguna';
-      const observacionesBebida = mesa.bebidas ? Object.values(mesa.bebidas[0])[0] : 'Ninguna';
+      for (const key in mesas) {
+        if (mesas.hasOwnProperty(key)) {
+          const mesa = mesas[key];
+          const estado = mesa.estado;
+          const platillo = mesa.platillos ? mesa.platillos[0].nombre : 'Ninguno';
+          const observacionesPlatillo = mesa.platillos ? mesa.platillos[0].descripcion : 'Ninguna';
+          const bebida = mesa.bebidas ? Object.keys(mesa.bebidas)[0] : 'Ninguna';
+          const observacionesBebida = mesa.bebidas ? mesa.bebidas[bebida] : 'Ninguna';
 
-      mesasHTML += `
-        <div class="mesa card text-center ${estado === 'ocupada' ? 'bg-danger' : 'bg-success'}">
-          <div class="card-body">
-            <h3 class="card-title">Mesa ${key}</h3>
-            <p class="card-text">Status: ${estado}</p>
-            <p class="card-text">Platillo: ${platillo}</p>
-            <p class="card-text">Observaciones: ${observacionesPlatillo}</p>
-            <p class="card-text">Bebida: ${bebida}</p>
-            <p class="card-text">Observaciones: ${observacionesBebida}</p>
-          </div>
-        </div>
-      `;
-    }
-  }
+          mesasHTML += `
+            <div class="mesa card text-center ${estado === 'ocupada' ? 'bg-danger' : 'bg-success'}">
+              <div class="card-body">
+                <h3 class="card-title">Mesa ${key}</h3>
+                <p class="card-text">Status: ${estado}</p>
+                <p class="card-text">Platillo: ${platillo}</p>
+                <p class="card-text">Observaciones: ${observacionesPlatillo}</p>
+                <p class="card-text">Bebida: ${bebida}</p>
+                <p class="card-text">Observaciones: ${observacionesBebida}</p>
+              </div>
+            </div>
+          `;
+        }
+      }
 
-  // Actualizar el contenedor de las mesas
-  document.getElementById('container').innerHTML = mesasHTML;
-});
+      // Actualizar el contenedor de las mesas
+      document.getElementById('container').innerHTML = mesasHTML;
+    });
 
-// Escuchar cambios específicos en el nodo platillos
-dbRef.on('child_changed', (snapshot) => {
-  const mesaId = snapshot.key;
-  const mesaData = snapshot.val();
+    // Escuchar cambios específicos en el nodo platillos
+    dbRef.on('child_changed', (snapshot) => {
+      const mesaId = snapshot.key;
+      const mesaData = snapshot.val();
 
-  // Verificar si hay un nuevo platillo
-  if (mesaData.platillo) {
-    const nuevoPlatillo = Object.keys(mesaData.platillo)[2];
-    const observaciones = mesaData.platillo[nuevoPlatillo];
-    alert(`Se añadió un nuevo platillo en la Mesa ${mesaId}: ${nuevoPlatillo} - Observaciones: ${observaciones}`);
-  }
-});
-
+      // Verificar si hay un nuevo platillo
+      if (mesaData.platillos) {
+        const nuevoPlatillo = mesaData.platillos[0].nombre;
+        const observaciones = mesaData.platillos[0].descripcion;
+        alert(`Se añadió un nuevo platillo en la Mesa ${mesaId}: ${nuevoPlatillo} - Observaciones: ${observaciones}`);
+      }
+    });
 
     $(document).ready(function() {
       // Cargar el menú lateral desde menu.php

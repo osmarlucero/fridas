@@ -32,6 +32,7 @@ if (isset($_SESSION) == false || $_SESSION['id'] == false) {
         th, td {
             text-align: center;
              vertical-align: middle;
+             
         }
     </style>
 </head>
