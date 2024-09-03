@@ -56,7 +56,7 @@
       <a class="nav-link" href="#">Usuarios</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Sucursales</a>
+      <a class="nav-link" href="printer.php">Print</a>
     </li>
   </ul>
 </div>

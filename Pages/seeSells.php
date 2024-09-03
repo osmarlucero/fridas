@@ -48,7 +48,6 @@ if (isset($_SESSION) == false || $_SESSION['id'] == false) {
                     <thead>
                     <tr>
                         <th class="col-2">ID</th>
-                        <th class="col-2">Vendedor</th>
                         <th class="col-5">Nombre</th>
                         <th class="col-2">Precio</th>
                     </tr>
@@ -58,7 +57,6 @@ if (isset($_SESSION) == false || $_SESSION['id'] == false) {
                     <?php foreach ($menus as $menu): ?>
                         <tr>
                             <td><?= $menu['id'] ?></td>
-                            <td><?= $menu['vendedor'] ?></td>
                             <td><?= $menu['nombre'] ?></td>
                             <td>$<?= $menu['precio'] ?></td>
                         </tr>
